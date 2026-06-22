@@ -8,9 +8,11 @@
     <title>Projetos — Alisson George</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Hanken+Grotesque:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=7">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <!-- MODO ESCURO 2026-06-22: tema antes da pintura (evita flash). -->
+    <script>try{var s=localStorage.getItem('tema');var d=s?s==='dark':(document.documentElement.classList.contains('dark')||matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}</script>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
@@ -22,31 +24,88 @@
             <a href="projetos.html" aria-current="page">Projetos</a>
             <a href="contato.html">Contato</a>
             <span class="nav-lang">pt / en</span>
+            <!-- MODO ESCURO 2026-06-22: botão de tema. -->
+            <button class="theme-toggle" type="button" aria-label="Alternar modo claro e escuro" aria-pressed="false"><span class="tt-dot" aria-hidden="true">◑</span><span class="tt-label">Escuro</span></button>
         </nav>
     </header>
 
     <main id="main-content">
         <section class="hero" aria-labelledby="proj-title">
-            <!-- 2026-06-12 (noite): título-afirmação + palavra vazada -->
+            <!-- 2026-06-12 (noite): título-afirmação + palavra vazada; mantido -->
+            <!-- 2026-06-13: CSS corrigido (line-height 1.0) — acentos não clipam mais -->
             <h1 id="proj-title" class="display reveal">Feito à mão<br>e <span class="display-outline">à máquina</span></h1>
-            <p class="hero-sub reveal">Oito projetos, três frentes. Tudo aqui saiu do papel — parte virou tinta, parte virou polígono.</p>
+            <!-- 2026-06-14: reescrita do sub — nova abordagem: mais direta, sem inventário descritivo
+                 2026-06-22: contagem atualizada (8→13) após incluir projetos de interface/3D/acessibilidade. -->
+            <p class="hero-sub reveal">Do arquivo para o mundo. Treze projetos, nenhum de gaveta.</p>
             <div class="filters reveal" role="group" aria-label="Filtrar projetos por categoria">
                 <button class="filter-btn active" data-filter="todos">Todos</button>
                 <button class="filter-btn" data-filter="grafico">Design Gráfico</button>
                 <button class="filter-btn" data-filter="branding">Branding</button>
                 <button class="filter-btn" data-filter="3d">Modelagem 3D</button>
+                <!-- 2026-06-22: filtros novos p/ os projetos trazidos do estudo paralelo -->
+                <button class="filter-btn" data-filter="interface">Interface</button>
+                <button class="filter-btn" data-filter="acessibilidade">Acessibilidade</button>
             </div>
         </section>
 
         <section class="section section--flush-top">
             <div class="projects-grid">
-                <article class="project-card reveal" data-cat="grafico">
+                <!-- 2026-06-13: primeiro card como destaque editorial — layout horizontal full-width
+                     Reverter: remover a classe project-card--featured deste artigo. -->
+                <article class="project-card project-card--featured reveal" data-cat="grafico">
                     <div class="project-thumb thumb--vermelho" aria-hidden="true">WE FIGHT</div>
                     <div class="project-body">
                         <span class="pill pill--vermelho">POSTERS</span>
                         <h3>Propaganda de Resistência</h3>
                         <p>E se o fim do mundo precisasse de direção de arte? Propaganda de incentivo para cenários pós-apocalípticos — signos e impacto visual a serviço do moral coletivo.</p>
                         <p class="project-meta">Photoshop · Série de cartazes</p>
+                    </div>
+                </article>
+                <!-- 2026-06-22: projetos trazidos do estudo paralelo (sem o CultuArte).
+                     Reverter: remover estes 5 <article>. -->
+                <article class="project-card reveal" data-cat="3d">
+                    <div class="project-thumb thumb--preto" aria-hidden="true">RTCOM</div>
+                    <div class="project-body">
+                        <span class="pill pill--vermelho">ANIMAÇÃO 3D</span>
+                        <h3>RTCOM — Reconstrução Forense</h3>
+                        <p>Reconstituição animada de um caso para uso jurídico. Cada plano fiel ao laudo, claro o bastante para um tribunal entender.</p>
+                        <p class="project-meta">Blender · Animação 3D</p>
+                    </div>
+                </article>
+                <article class="project-card reveal" data-cat="interface">
+                    <div class="project-thumb thumb--azul" aria-hidden="true">AVANTE</div>
+                    <div class="project-body">
+                        <span class="pill pill--azul">INTERFACE</span>
+                        <h3>Avante Santa Maria</h3>
+                        <p>App cívico para registrar problemas urbanos no mapa. Funciona offline, modera imagem e enfileira os envios quando a conexão cai.</p>
+                        <p class="project-meta">Supabase · PWA</p>
+                    </div>
+                </article>
+                <article class="project-card reveal" data-cat="interface">
+                    <div class="project-thumb thumb--verde" aria-hidden="true">SERTÃO</div>
+                    <div class="project-body">
+                        <span class="pill pill--azul">INTERFACE</span>
+                        <h3>Sertão Dança</h3>
+                        <p>Plataforma para ensinar danças do sertão. Currículo orientado a dados e interface acessível do começo ao fim.</p>
+                        <p class="project-meta">Design system · Web</p>
+                    </div>
+                </article>
+                <article class="project-card reveal" data-cat="acessibilidade 3d">
+                    <div class="project-thumb thumb--laranja" aria-hidden="true">P.L.A.</div>
+                    <div class="project-body">
+                        <span class="pill pill--verde">ACESSIBILIDADE</span>
+                        <h3>P.L.A. — Placa Lógica Tátil</h3>
+                        <p>Material tátil para um estudante com deficiência visual. Desenho industrial e impressão 3D a serviço de aprender pelo toque.</p>
+                        <p class="project-meta">Blender · Impressão 3D</p>
+                    </div>
+                </article>
+                <article class="project-card reveal" data-cat="3d">
+                    <div class="project-thumb thumb--laranja" aria-hidden="true">CÚPULA</div>
+                    <div class="project-body">
+                        <span class="pill pill--laranja">PRODUTO</span>
+                        <h3>Cúpula Cloth-Sim</h3>
+                        <p>Cúpula de luminária gerada por simulação de tecido e impressa em 3D. Onde a malha vira objeto sobre a mesa.</p>
+                        <p class="project-meta">Blender · Impressão 3D</p>
                     </div>
                 </article>
                 <article class="project-card reveal" data-cat="grafico">

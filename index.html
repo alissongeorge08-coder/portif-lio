@@ -8,9 +8,12 @@
     <title>Alisson George — Design & Modelagem 3D</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Hanken+Grotesque:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=7">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <!-- MODO ESCURO 2026-06-22: define o tema antes da pintura (evita flash).
+         Reverter: remover este <script> + o bloco "MODO ESCURO" do main.js/style.css. -->
+    <script>try{var s=localStorage.getItem('tema');var d=s?s==='dark':(document.documentElement.classList.contains('dark')||matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}</script>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
@@ -22,6 +25,10 @@
             <a href="projetos.html">Projetos</a>
             <a href="contato.html">Contato</a>
             <span class="nav-lang">pt / en</span>
+            <!-- MODO ESCURO 2026-06-22: botão de alternância. Reverter: remover este botão. -->
+            <button class="theme-toggle" type="button" aria-label="Alternar modo claro e escuro" aria-pressed="false">
+                <span class="tt-dot" aria-hidden="true">◑</span><span class="tt-label">Escuro</span>
+            </button>
         </nav>
     </header>
 
@@ -32,10 +39,11 @@
                 <span class="pill pill--azul">2026</span>
                 <span class="eyebrow">Portfólio — Design &amp; Modelagem 3D</span>
             </div>
-            <!-- 2026-06-12 (noite): novo hero — título-afirmação + palavra vazada (ref. Pangram Pangram / It's Nice That) -->
             <h1 id="hero-title" class="display reveal">Ideia vira<br><span class="display-outline">coisa</span> aqui</h1>
             <div class="hero-bottom reveal">
-                <p class="hero-sub">Sou Alisson George, estudante de Desenho Industrial na UFSM. Pego ideias cruas e levo até o fim: marcas com postura, revistas que pedem para ser folheadas e modelos 3D que parecem prontos para sair da tela.</p>
+                <!-- 2026-06-14: reescrita do hero sub — nova abordagem: foco no resultado, não na bio
+                     Reverter: restaurar o texto anterior do backup _backups/2026-06-14-0900/index.html -->
+                <p class="hero-sub">Desenho Industrial na UFSM. Começo com uma ideia e termino com algo que existe de verdade: marca, página impressa, objeto 3D. Às vezes nos três em sequência.</p>
                 <div class="hero-ctas">
                     <a href="projetos.html" class="btn btn--azul">Ver o que já virou <span class="arrow">→</span></a>
                     <a href="contato.html" class="btn btn--outline">Trazer uma ideia <span class="arrow">→</span></a>
@@ -85,35 +93,18 @@
             </div>
         </section>
 
-        <!-- PROCESSO — 2026-06-12 (noite): nova seção (storytelling de processo) -->
-        <section class="section section--flush-top section--processo" aria-labelledby="processo-title">
-            <h2 id="processo-title" class="h2 reveal">Como a ideia vira coisa</h2>
-            <ol class="process-grid">
-                <li class="process-step reveal">
-                    <span class="process-num">01</span>
-                    <h3>Pesquisa</h3>
-                    <p>Antes do traço, a pergunta. Referências, contexto e o problema bem formulado.</p>
-                </li>
-                <li class="process-step reveal">
-                    <span class="process-num">02</span>
-                    <h3>Conceito</h3>
-                    <p>A ideia ganha tese: direção visual, moodboard e as primeiras formas no papel.</p>
-                </li>
-                <li class="process-step reveal">
-                    <span class="process-num">03</span>
-                    <h3>Forma</h3>
-                    <p>Vetor, grid e malha 3D. É onde o conceito enfrenta a técnica — e sai melhor.</p>
-                </li>
-                <li class="process-step reveal">
-                    <span class="process-num">04</span>
-                    <h3>Entrega</h3>
-                    <p>Arquivo fechado, render final, produto na mão. Feito vale mais que perfeito guardado.</p>
-                </li>
-            </ol>
+        <!-- FAIXA MANIFESTO — 2026-06-13: breaker editorial entre seções
+             Frase de manifesto em display grande, fundo preto, palavra-chave em laranja.
+             Reverter: remover este bloco + o CSS .statement-strip. -->
+        <section class="statement-strip" aria-label="Manifesto">
+            <!-- 2026-06-22: frase trocada — antes "Feito vale mais que perfeito guardado"
+                 (clichê de produtividade, genérico). Nova frase amarra com o hero.
+                 2026-06-22 (v2): "objeto" → "projeto" — termo do ofício de desenho industrial. -->
+            <p class="reveal">Ideia boa<br>é a que <em>vira projeto</em>.</p>
         </section>
 
         <!-- DESTAQUES -->
-        <section class="section section--flush-top" aria-labelledby="destaques-title">
+        <section class="section" aria-labelledby="destaques-title">
             <div class="section-head reveal">
                 <h2 id="destaques-title" class="h2">Direto da bancada</h2>
                 <a href="projetos.html" class="btn btn--escuro">Ver todos <span class="arrow">→</span></a>
@@ -136,6 +127,43 @@
                         <p>Uma exposição inteira testada antes de existir: percurso, iluminação e materiais simulados em 3D para validar cada decisão.</p>
                         <p class="project-meta">Blender · Expografia</p>
                     </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- FERRAMENTAS — 2026-06-22: honestidade sobre o que domino vs. faço com apoio.
+             Trazido do estudo paralelo, adaptado à identidade. Reverter: remover esta section. -->
+        <section class="section" aria-labelledby="ferramentas-title">
+            <h2 id="ferramentas-title" class="h2 reveal">Como eu trabalho</h2>
+            <p class="section-lead reveal">Sou direto sobre as ferramentas: o que domino sozinho, o que já manejo com tranquilidade, e o que toco com apoio de IA. Sem fingir o que não é.</p>
+            <div class="tools-grid">
+                <article class="tool-col reveal">
+                    <span class="tool-tier">Domínio</span>
+                    <ul>
+                        <li>Blender &amp; modelagem 3D</li>
+                        <li>Desenho industrial</li>
+                        <li>Impressão 3D &amp; prototipagem</li>
+                        <li>Identidade visual</li>
+                        <li>Character design</li>
+                    </ul>
+                </article>
+                <article class="tool-col reveal">
+                    <span class="tool-tier">Com fluência</span>
+                    <ul>
+                        <li>Figma</li>
+                        <li>Design system</li>
+                        <li>Editorial &amp; tipografia</li>
+                        <li>Acessibilidade (WCAG)</li>
+                    </ul>
+                </article>
+                <article class="tool-col reveal">
+                    <span class="tool-tier">Com apoio de IA</span>
+                    <ul>
+                        <li>Front-end (HTML/CSS/JS)</li>
+                        <li>Supabase &amp; banco de dados</li>
+                        <li>Claude Code</li>
+                        <li>PWA &amp; GitHub Pages</li>
+                    </ul>
                 </article>
             </div>
         </section>

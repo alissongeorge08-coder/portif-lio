@@ -8,9 +8,11 @@
     <title>Sobre — Alisson George</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Hanken+Grotesque:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=7">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <!-- MODO ESCURO 2026-06-22: tema antes da pintura (evita flash). -->
+    <script>try{var s=localStorage.getItem('tema');var d=s?s==='dark':(document.documentElement.classList.contains('dark')||matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}</script>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
@@ -22,12 +24,14 @@
             <a href="projetos.html">Projetos</a>
             <a href="contato.html">Contato</a>
             <span class="nav-lang">pt / en</span>
+            <!-- MODO ESCURO 2026-06-22: botão de tema. -->
+            <button class="theme-toggle" type="button" aria-label="Alternar modo claro e escuro" aria-pressed="false"><span class="tt-dot" aria-hidden="true">◑</span><span class="tt-label">Escuro</span></button>
         </nav>
     </header>
 
     <main id="main-content">
         <section class="hero" aria-labelledby="sobre-title">
-            <!-- 2026-06-12 (noite): título-afirmação + palavra vazada -->
+            <!-- 2026-06-12 (noite): título-afirmação + palavra vazada; mantido -->
             <h1 id="sobre-title" class="display reveal">Projeto, logo<br><span class="display-outline">existo</span></h1>
             <div class="sobre-pills reveal">
                 <span class="pill pill--azul">CRIATIVO</span>
@@ -52,6 +56,36 @@
                         <div class="stat"><strong>2D &amp; 3D</strong><span>do gráfico ao render</span></div>
                         <div class="stat"><strong>UFSM</strong><span>Desenho Industrial</span></div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2026-06-14: seção "Stack criativo" — lista editorial de ferramentas em tipografia display grande
+             Pattern "list-as-design" (Visual Journal / Bold Minimalism 2026).
+             Reverter: remover este bloco inteiro (<section class="section stack-section">…</section>)
+             + remover o bloco CSS .stack-section/.stack-list/.stack-item do style.css. -->
+        <section class="section stack-section" aria-labelledby="stack-title">
+            <span id="stack-title" class="eyebrow reveal">Stack criativo</span>
+            <div class="stack-list">
+                <div class="stack-item reveal">
+                    <span class="stack-num">01</span>
+                    <span class="stack-name">Blender</span>
+                    <span class="stack-desc">Modelagem · Textura · Render</span>
+                </div>
+                <div class="stack-item reveal">
+                    <span class="stack-num">02</span>
+                    <span class="stack-name">Illustrator</span>
+                    <span class="stack-desc">Vetores · Branding · Marca</span>
+                </div>
+                <div class="stack-item reveal">
+                    <span class="stack-num">03</span>
+                    <span class="stack-name">Photoshop</span>
+                    <span class="stack-desc">Imagem · Compositing · Posters</span>
+                </div>
+                <div class="stack-item reveal">
+                    <span class="stack-num">04</span>
+                    <span class="stack-name">InDesign</span>
+                    <span class="stack-desc">Editorial · Layout · Revistas</span>
                 </div>
             </div>
         </section>

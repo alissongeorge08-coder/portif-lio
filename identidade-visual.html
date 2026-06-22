@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alisson George — De Dentro pra Fora</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,600;0,700;0,800;1,800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --azul:        #2B3FD8;
+      --vermelho:    #ED2647;
+      --laranja:     #FF8A00;
+      --verde:       #3FA110;
+      --offwhite:    #F1F0EC;
+      --preto:       #1C1C1A;
+      --branco:      #FFFFFF;
+      --cinza:       #6B6B66;
+      --cinza-claro: #D8D6CE;
+      --P: 'Poppins', sans-serif;
+      --I: 'Inter', sans-serif;
+      --M: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%; overflow: hidden;
+      font-family: var(--I); color: var(--preto);
+      -webkit-font-smoothing: antialiased; background: var(--offwhite);
+    }
+
+    /* ── SHELL ── */
+    .pres { width: 100vw; height: 100vh; position: relative; overflow: hidden; }
+
+    .slide {
+      position: absolute; inset: 0; overflow: hidden;
+      opacity: 0; pointer-events: none;
+      transition: opacity .48s cubic-bezier(.4,0,.2,1), transform .48s cubic-bezier(.4,0,.2,1);
+      transform: translateY(28px);
+    }
+    .slide.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .slide.exit   { opacity: 0; transform: translateY(-28px); }
+
+    /* ── CHROME ── */
+    .watermark {
+      position: fixed; top: 20px; left: 28px; z-index: 300;
+      font-family: var(--P); font-size: .58rem; font-weight: 700;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(28,28,26,.2); pointer-events: none;
+      transition: color .3s;
+    }
+    .watermark.light { color: rgba(255,255,255,.18); }
+
+    .nav-btn {
+      position: fixed; bottom: 28px; z-index: 300;
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 1.5px solid rgba(28,28,26,.14);
+      background: rgba(241,240,236,.85); backdrop-filter: blur(8px);
+      color: var(--preto); font-size: 1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s; box-shadow: 0 2px 10px rgba(28,28,26,.07);
+    }
+    .nav-btn:hover  { background: var(--preto); color: var(--branco); border-color: var(--preto); }
+    .nav-btn:disabled { opacity: .18; pointer-events: none; }
+    .nav-btn.light  { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.22); color: var(--branco); }
+    .nav-btn.light:hover { background: rgba(255,255,255,.25); }
+    #btn-prev { left: calc(50% - 54px); }
+    #btn-next { left: calc(50% + 12px); }
+
+    .progress {
+      position: fixed; bottom: 76px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 6px; z-index: 200;
+    }
+    .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(28,28,26,.18); transition: all .3s; cursor: pointer;
+    }
+    .dot.active { background: var(--azul); width: 20px; border-radius: 3px; }
+    .dot.light  { background: rgba(255,255,255,.22); }
+    .dot.light.active { background: var(--laranja); width: 20px; }
+
+    .slide-num {
+      position: fixed; bottom: 28px; right: 28px; z-index: 300;
+      font-family: var(--M); font-size: .62rem; color: rgba(28,28,26,.2);
+      transition: color .3s; pointer-events: none;
+    }
+    .slide-num.light { color: rgba(255,255,255,.18); }
+
+    /* ════════════════════════════
+       S1 — INTENÇÃO (hero style)
+    ════════════════════════════ */
+    @keyframes mq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    #s1 {
+      background: var(--offwhite);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .s1-site-header {
+      padding: 14px clamp(20px,4vw,60px);
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(28,28,26,.08); flex-shrink: 0;
+    }
+    .s1-logo {
+      font-family: var(--P); font-weight: 700; font-size: .88rem;
+      letter-spacing: .04em; color: var(--preto);
+    }
+    .s1-site-nav {
+      display: flex; gap: 24px; align-items: center;
+      font-size: .84rem; color: var(--cinza);
+    }
+    .s1-lang { color: var(--cinza-claro); font-size: .75rem; }
+
+    .s1-hero {
+      flex: 1; padding: clamp(24px,4vw,56px) clamp(20px,4vw,60px) clamp(16px,2vw,28px);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .s1-hero-eyebrow {
+      display: flex; align-items: center; gap: 12px; margin-bottom: clamp(16px,2vw,28px);
+    }
+    .s1-pill {
+      font-family: var(--P); font-size: .65rem; font-weight: 600;
+      padding: 4px 12px; border-radius: 100px; background: var(--azul); color: var(--branco);
+    }
+    .s1-eyebrow-txt { font-size: .82rem; color: var(--cinza); }
+    .s1-display {
+      font-family: var(--P); font-weight: 800;
+      font-size: clamp(3.2rem, 9vw, 9rem);
+      line-height: .92; letter-spacing: -.04em; color: var(--preto);
+      margin-bottom: clamp(16px,2vw,28px);
+    }
+    .s1-outline { color: transparent; -webkit-text-stroke: clamp(2px,.35vw,4px) var(--preto); }
+    .s1-sub {
+      font-size: clamp(.82rem,1.05vw,.98rem); color: var(--cinza);
+      line-height: 1.65; max-width: 520px; margin-bottom: clamp(16px,2vw,28px);
+    }
+    .s1-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+    .s1-btn {
+      font-family: var(--I); font-weight: 600; font-size: .84rem;
+      padding: 11px 26px; border-radius: 100px; cursor: default;
+    }
+    .s1-btn-blue { background: var(--azul); color: var(--branco); }
+    .s1-btn-out  { background: transparent; color: var(--preto); border: 1.5px solid var(--preto); }
+
+    .s1-marquee-wrap { flex-shrink: 0; overflow: hidden; background: var(--azul); }
+    .s1-track {
+      display: inline-block; white-space: nowrap;
+      animation: mq 22s linear infinite;
+      font-family: var(--P); font-weight: 700;
+      font-size: clamp(.72rem,.95vw,1rem); letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(255,255,255,.75);
+      padding: clamp(10px,1.5vw,16px) 0;
+    }
+
+    .s1-slide-footer {
+      padding: 10px clamp(20px,4vw,60px);
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(28,28,26,.07); flex-shrink: 0;
+    }
+    .s1-slide-label { font-family: var(--P); font-size: .58rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--cinza-claro); }
+    .s1-slide-num   { font-family: var(--M); font-size: .58rem; color: var(--cinza-claro); }
+
+    /* ════════════════════════════
+       S2 — DNA
+    ════════════════════════════ */
+    #s2 {
+      background: var(--offwhite);
+      display: flex; align-items: center; justify-content: center;
+      padding: clamp(36px,5vw,72px);
+    }
+    .dna-wrap { width: 100%; max-width: 1100px; }
+    .dna-header {
+      display: flex; align-items: center; gap: 16px; margin-bottom: clamp(24px,3vw,48px);
+    }
+    .dna-label {
+      font-family: var(--P); font-size: .6rem; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase; color: var(--cinza);
+      white-space: nowrap;
+    }
+    .dna-line { flex: 1; height: 1px; background: rgba(28,28,26,.1); }
+
+    .dna-row {
+      display: flex; align-items: baseline; gap: clamp(16px,2.5vw,40px);
+      padding: clamp(12px,1.8vw,22px) 0;
+      border-bottom: 1px solid rgba(28,28,26,.08);
+    }
+    .dna-row:first-of-type { border-top: 1px solid rgba(28,28,26,.08); }
+    .dna-num {
+      font-family: var(--P); font-weight: 700; font-size: .72rem;
+      color: var(--cinza-claro); letter-spacing: .12em; width: 28px; flex-shrink: 0;
+    }
+    .dna-word {
+      font-family: var(--P); font-weight: 800;
+      font-size: clamp(2.6rem, 7.5vw, 7.5rem);
+      letter-spacing: -.04em; line-height: 1;
+      text-transform: uppercase; flex: 1;
+    }
+    .dna-word.filled  { color: var(--preto); }
+    .dna-word.outline {
+      color: transparent;
+      -webkit-text-stroke: clamp(1.5px,0.25vw,3px) var(--preto);
+    }
+    .dna-word.accent  { color: var(--azul); }
+    .dna-def {
+      font-size: clamp(.72rem,.95vw,.9rem);
+      color: var(--cinza); max-width: 280px; line-height: 1.65;
+      text-align: right; align-self: center;
+    }
+
+    /* ════════════════════════════
+       S3 — MATÉRIA-PRIMA
+    ════════════════════════════ */
+    #s3 {
+      background: var(--branco);
+      display: flex; align-items: stretch;
+    }
+    .mat-col {
+      flex: 1; padding: clamp(36px,5vw,72px);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .mat-divider { width: 1px; background: rgba(28,28,26,.07); flex-shrink: 0; }
+    .mat-col-label {
+      font-family: var(--P); font-size: .58rem; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase; color: var(--cinza);
+      margin-bottom: clamp(20px,2.5vw,36px);
+    }
+
+    .color-stripes { display: flex; flex-direction: column; gap: 8px; }
+    .stripe {
+      border-radius: 12px; padding: 13px 18px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .stripe-name { font-family: var(--P); font-weight: 700; font-size: .82rem; }
+    .stripe-right { text-align: right; }
+    .stripe-hex { font-family: var(--M); font-size: .65rem; opacity: .65; display: block; }
+    .stripe-use { font-family: var(--P); font-size: .58rem; font-weight: 600; opacity: .55; letter-spacing: .08em; text-transform: uppercase; }
+
+    .type-specimens { display: flex; flex-direction: column; gap: clamp(14px,2vw,26px); }
+    .specimen { border-bottom: 1px solid rgba(28,28,26,.07); padding-bottom: clamp(14px,2vw,24px); }
+    .specimen:last-child { border-bottom: none; padding-bottom: 0; }
+    .spec-meta {
+      font-family: var(--M); font-size: .58rem; color: var(--cinza-claro);
+      margin-bottom: 6px; display: flex; gap: 14px;
+    }
+
+    /* ════════════════════════════
+       S4 — ARQUITETURA
+    ════════════════════════════ */
+    #s4 {
+      background: var(--offwhite);
+      display: flex; align-items: center; justify-content: center;
+      padding: clamp(36px,5vw,72px);
+    }
+    .arch-wrap { width: 100%; max-width: 1100px; }
+    .arch-title {
+      font-family: var(--P); font-weight: 800;
+      font-size: clamp(1.8rem,4.5vw,4rem);
+      letter-spacing: -.035em; color: var(--preto);
+      margin-bottom: 6px; text-transform: uppercase; line-height: 1;
+    }
+    .arch-sub { font-size: .85rem; color: var(--cinza); margin-bottom: clamp(24px,3vw,40px); }
+    .arch-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .arch-card { background: var(--branco); border-radius: 18px; padding: 22px 20px; }
+    .arch-card-label {
+      font-family: var(--P); font-size: .58rem; font-weight: 700;
+      color: var(--cinza); letter-spacing: .16em; text-transform: uppercase;
+      margin-bottom: 16px; padding-bottom: 10px;
+      border-bottom: 1px solid rgba(28,28,26,.07);
+    }
+
+    .radius-items { display: flex; flex-direction: column; gap: 10px; }
+    .radius-item { display: flex; align-items: center; gap: 12px; }
+    .rbox { height: 28px; background: var(--offwhite); border: 2px solid var(--preto); flex-shrink: 0; }
+    .r-val { font-family: var(--M); font-size: .7rem; color: var(--preto); font-weight: 600; }
+    .r-use { font-size: .62rem; color: var(--cinza); }
+
+    .spacing-items { display: flex; flex-direction: column; gap: 8px; }
+    .spacing-item { display: flex; align-items: center; gap: 10px; }
+    .sp-bar { height: 10px; background: var(--azul); border-radius: 3px; opacity: .7; flex-shrink: 0; }
+    .sp-label { font-family: var(--M); font-size: .65rem; color: var(--preto); }
+    .sp-use   { font-size: .6rem; color: var(--cinza); margin-left: 4px; }
+
+    .shadow-items { display: flex; flex-direction: column; gap: 12px; }
+    .shadow-item {
+      background: var(--branco); border-radius: 10px; padding: 11px 14px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .shadow-name { font-family: var(--P); font-size: .72rem; font-weight: 600; }
+    .shadow-val  { font-family: var(--M); font-size: .58rem; color: var(--cinza-claro); text-align: right; line-height: 1.5; }
+    .sh0 { box-shadow: none; border: 1px solid rgba(28,28,26,.1); }
+    .sh1 { box-shadow: 0 16px 40px rgba(28,28,26,.08); }
+    .sh2 { box-shadow: 0 20px 48px rgba(28,28,26,.10); }
+
+    /* ════════════════════════════
+       S5 — PEÇAS
+    ════════════════════════════ */
+    #s5 {
+      background: var(--offwhite);
+      display: flex; align-items: center; justify-content: center;
+      padding: clamp(36px,4vw,60px);
+    }
+    .pecas-wrap { width: 100%; max-width: 1100px; }
+    .pecas-header {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: clamp(18px,2.5vw,32px); flex-wrap: wrap; gap: 8px;
+    }
+    .pecas-title {
+      font-family: var(--P); font-weight: 800; text-transform: uppercase;
+      font-size: clamp(1.6rem,3.8vw,3.5rem); letter-spacing: -.035em; line-height: 1;
+    }
+    .pecas-count { font-family: var(--M); font-size: .65rem; color: var(--cinza); letter-spacing: .08em; }
+
+    .workbench { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    .bench-item { background: var(--branco); border-radius: 18px; padding: 20px; }
+    .bench-label {
+      font-family: var(--M); font-size: .58rem; color: var(--cinza-claro);
+      margin-bottom: 14px; letter-spacing: .06em;
+    }
+
+    .btn-stack { display: flex; flex-direction: column; gap: 8px; }
+    .c-btn {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-family: var(--I); font-weight: 600; font-size: .82rem;
+      padding: 11px 22px; border-radius: 100px; border: none; cursor: default; width: 100%;
+    }
+    .c-btn-blue { background: var(--azul); color: var(--branco); }
+    .c-btn-dark { background: var(--preto); color: var(--branco); }
+    .c-btn-out  { background: transparent; color: var(--preto); border: 1.5px solid var(--preto); }
+
+    .pill-cloud { display: flex; flex-wrap: wrap; gap: 7px; }
+    .c-pill {
+      font-family: var(--P); font-weight: 600; font-size: .68rem;
+      letter-spacing: .04em; padding: 5px 14px; border-radius: 100px; color: var(--branco);
+    }
+    .pill-az { background: var(--azul); }
+    .pill-vm { background: #C71B38; }
+    .pill-la { background: var(--laranja); color: var(--preto); }
+    .pill-vd { background: #2E7A0C; }
+
+    .filter-row { display: flex; flex-wrap: wrap; gap: 7px; }
+    .c-filter {
+      font-family: var(--I); font-size: .78rem; font-weight: 500;
+      padding: 7px 18px; border-radius: 100px;
+      border: 1px solid rgba(28,28,26,.2); background: transparent; color: var(--preto); cursor: default;
+    }
+    .c-filter.on { background: var(--preto); color: var(--branco); border-color: var(--preto); }
+
+    .mini-area { background: var(--offwhite); border-radius: 12px; padding: 14px; }
+    .mini-area-num { font-family: var(--P); font-weight: 800; font-size: .8rem; color: var(--azul); margin-bottom: 4px; }
+    .mini-area-title { font-family: var(--P); font-weight: 700; font-size: .95rem; margin-bottom: 5px; }
+    .mini-area li { font-size: .68rem; color: var(--cinza); list-style: none; }
+    .mini-area li::before { content: '— '; }
+
+    .mini-proj { border-radius: 12px; overflow: hidden; border: 1px solid rgba(28,28,26,.07); }
+    .mini-proj-thumb { height: 52px; display: flex; align-items: center; justify-content: center; font-family: var(--P); font-weight: 800; color: rgba(255,255,255,.2); font-size: .9rem; }
+    .mini-proj-body { padding: 9px 11px; background: var(--branco); }
+    .mini-proj-name { font-family: var(--P); font-weight: 700; font-size: .8rem; }
+    .mini-proj-meta { font-family: var(--P); font-size: .58rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--cinza); }
+
+    .mini-marquee { background: var(--azul); border-radius: 12px; padding: 12px 18px; overflow: hidden; font-family: var(--P); font-size: .72rem; font-weight: 700; color: rgba(255,255,255,.7); letter-spacing: .08em; white-space: nowrap; }
+    .mini-cta { background: var(--preto); border-radius: 12px; padding: 16px; font-family: var(--P); font-weight: 800; font-size: clamp(1rem,1.6vw,1.4rem); letter-spacing: -.02em; color: var(--branco); line-height: 1.15; text-transform: uppercase; }
+    .mini-cta span { color: var(--laranja); }
+
+    .mini-stack { display: flex; flex-direction: column; }
+    .mini-stack-item { display: flex; align-items: baseline; gap: 8px; padding: 8px 0; border-bottom: 1px solid rgba(28,28,26,.08); }
+    .mini-stack-item:first-child { border-top: 1px solid rgba(28,28,26,.08); }
+    .stn { font-family: var(--P); font-size: .58rem; font-weight: 700; color: var(--cinza-claro); width: 20px; }
+    .stt { font-family: var(--P); font-size: 1rem; font-weight: 800; letter-spacing: -.02em; }
+    .std { font-family: var(--P); font-size: .58rem; font-weight: 600; color: var(--cinza); text-transform: uppercase; letter-spacing: .08em; margin-left: auto; }
+
+    /* ════════════════════════════
+       S6 — CÓDIGO
+    ════════════════════════════ */
+    #s6 {
+      background: var(--preto);
+      display: flex; align-items: center; justify-content: center;
+      padding: clamp(36px,5vw,72px);
+    }
+    .code-wrap { width: 100%; max-width: 1100px; }
+    .code-headline {
+      font-family: var(--P); font-weight: 800;
+      font-size: clamp(1.6rem,3.5vw,3rem);
+      letter-spacing: -.035em; color: var(--branco);
+      text-transform: uppercase; line-height: 1; margin-bottom: 6px;
+    }
+    .code-sub { font-size: .85rem; color: rgba(255,255,255,.3); margin-bottom: clamp(22px,3vw,40px); }
+    .code-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .code-block {
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.07);
+      border-radius: 16px; padding: 22px;
+      font-family: var(--M); font-size: .68rem; line-height: 1.9;
+    }
+    .code-block-title {
+      font-family: var(--P); font-size: .56rem; font-weight: 700;
+      color: rgba(255,255,255,.22); text-transform: uppercase; letter-spacing: .18em;
+      margin-bottom: 14px;
+    }
+    .tl { display: flex; align-items: center; flex-wrap: wrap; gap: 2px; }
+    .t-sel  { color: var(--laranja); }
+    .t-brace{ color: rgba(255,255,255,.18); }
+    .t-prop { color: #79b8ff; }
+    .t-col  { color: rgba(255,255,255,.18); margin: 0 2px; }
+    .t-val  { color: #f8c555; }
+    .t-cmt  { color: rgba(76,175,80,.5); font-size: .6rem; margin-left: 8px; }
+    .t-sw   { width: 9px; height: 9px; border-radius: 2px; display: inline-block; margin-right: 6px; vertical-align: middle; flex-shrink: 0; }
+    .ind    { padding-left: 18px; }
+
+    .why-pill {
+      background: rgba(255,138,0,.1); border: 1px solid rgba(255,138,0,.2);
+      border-radius: 12px; padding: 14px 18px; margin-top: 14px;
+      font-size: .78rem; color: rgba(255,255,255,.42); line-height: 1.6;
+    }
+    .why-pill strong { color: var(--laranja); font-weight: 600; }
+    .why-pill code { font-family: var(--M); font-size: .7rem; color: rgba(255,255,255,.55); }
+
+    /* ════════════════════════════
+       S7 — O RESULTADO (fullscreen browser)
+    ════════════════════════════ */
+    #s7 {
+      background: var(--preto);
+      display: flex; flex-direction: column;
+      padding: 0; overflow: hidden;
+    }
+    .s7-head {
+      padding: 14px 40px;
+      display: flex; align-items: baseline; gap: 16px; flex-shrink: 0;
+    }
+    .s7-label {
+      font-family: var(--P); font-size: .6rem; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase; color: var(--laranja);
+    }
+    .s7-title {
+      font-family: var(--P); font-weight: 800; font-size: 1.5rem;
+      letter-spacing: -.03em; color: var(--branco); line-height: 1;
+    }
+    .s7-title em { font-style: normal; color: var(--laranja); }
+
+    .browser {
+      flex: 1; margin: 0 24px 20px;
+      border-radius: 12px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,.1);
+      box-shadow: 0 32px 64px rgba(0,0,0,.6);
+      display: flex; flex-direction: column; min-height: 0;
+    }
+    .browser-bar {
+      background: rgba(255,255,255,.07); padding: 9px 14px;
+      display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.07); flex-shrink: 0;
+    }
+    .dots3 { display: flex; gap: 5px; }
+    .d3 { width: 9px; height: 9px; border-radius: 50%; }
+    .browser-url {
+      flex: 1; background: rgba(255,255,255,.07); border-radius: 5px;
+      padding: 4px 12px; font-family: var(--M); font-size: .6rem;
+      color: rgba(255,255,255,.32); text-align: center;
+    }
+    .browser-body {
+      flex: 1; display: flex; flex-direction: column; overflow: hidden;
+      background: var(--offwhite);
+    }
+
+    /* mini site inside browser */
+    .mini-header {
+      background: var(--offwhite); padding: clamp(8px,1.2vw,14px) clamp(16px,3vw,40px);
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid rgba(28,28,26,.08); flex-shrink: 0;
+    }
+    .mini-logo { font-family: var(--P); font-weight: 700; font-size: clamp(.72rem,.9vw,.88rem); letter-spacing: .04em; color: var(--preto); }
+    .mini-nav  { display: flex; gap: clamp(12px,1.8vw,24px); }
+    .mini-nav a { font-size: clamp(.6rem,.78vw,.78rem); color: var(--cinza); text-decoration: none; }
+
+    .mini-hero {
+      flex: 1; padding: clamp(28px,4vw,60px) clamp(24px,4vw,60px);
+      display: flex; flex-direction: column; justify-content: center;
+      background: var(--offwhite); position: relative;
+    }
+    .mini-pill-sm {
+      font-family: var(--P); font-size: clamp(.6rem,.85vw,.82rem); font-weight: 600;
+      padding: 4px 14px; border-radius: 100px; background: var(--azul); color: var(--branco);
+      display: inline-block; margin-bottom: clamp(12px,1.8vw,24px);
+    }
+    .mini-eyebrow-row { display: flex; align-items: center; gap: 12px; margin-bottom: clamp(12px,1.8vw,24px); }
+    .mini-eyebrow-txt { font-size: clamp(.6rem,.8vw,.8rem); color: var(--cinza); }
+    .mini-display {
+      font-family: var(--P); font-weight: 800;
+      font-size: clamp(2.4rem, 6.5vw, 8rem);
+      letter-spacing: -.04em; color: var(--preto); line-height: .88;
+      margin-bottom: clamp(16px,2.2vw,32px);
+    }
+    .mini-display span { color: transparent; -webkit-text-stroke: clamp(1.5px,.22vw,2.5px) var(--preto); }
+    .mini-sub {
+      font-size: clamp(.72rem,.98vw,1rem); color: var(--cinza);
+      line-height: 1.6; max-width: 480px; margin-bottom: clamp(16px,2.2vw,32px);
+    }
+    .mini-btns { display: flex; gap: 10px; }
+    .mini-btn {
+      font-family: var(--I); font-weight: 600; font-size: clamp(.66rem,.9vw,.9rem);
+      padding: clamp(8px,1.1vw,13px) clamp(16px,2.2vw,28px); border-radius: 100px;
+    }
+    .mini-btn-bl { background: var(--azul); color: var(--branco); }
+    .mini-btn-ou { border: 1.5px solid var(--preto); color: var(--preto); background: transparent; }
+
+    /* fade gradient hint — conteúdo continua abaixo */
+    .mini-hero::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, rgba(241,240,236,.85));
+      pointer-events: none;
+    }
+
+    .mini-marquee-bar {
+      background: var(--azul); padding: clamp(9px,1.3vw,16px) clamp(24px,4vw,60px);
+      font-family: var(--P); font-size: clamp(.65rem,.88vw,.9rem); font-weight: 700;
+      color: rgba(255,255,255,.75); letter-spacing: .16em; white-space: nowrap; overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* ════════════════════════════
+       S8 — MODO ESCURO
+    ════════════════════════════ */
+    #s8 {
+      background: var(--offwhite);
+      display: flex; align-items: center; justify-content: center;
+      padding: clamp(36px,5vw,72px);
+    }
+    .dm-wrap { width: 100%; max-width: 1100px; }
+    .dm-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .dm-mode-label {
+      font-family: var(--P); font-size: .58rem; font-weight: 700;
+      letter-spacing: .16em; text-transform: uppercase; color: var(--cinza);
+      margin-bottom: 9px;
+    }
+    .dm-mini { border-radius: 14px; overflow: hidden; }
+    .dm-mini-light { border: 1px solid rgba(28,28,26,.1); }
+    .dm-mini-dark  { border: 1px solid rgba(28,28,26,.08); }
+
+  </style>
+</head>
+<body>
+<div class="pres">
+
+  <div class="watermark" id="wm">ALISSON GEORGE · IDENTIDADE VISUAL</div>
+  <button class="nav-btn" id="btn-prev" onclick="go(cur-1)">←</button>
+  <button class="nav-btn" id="btn-next" onclick="go(cur+1)">→</button>
+  <div class="progress" id="dots"></div>
+  <div class="slide-num" id="snum">1 / 7</div>
+
+  <!-- ════ S1 · INTENÇÃO ════ -->
+  <div class="slide active" id="s1">
+    <div class="s1-site-header">
+      <span class="s1-logo">ALISSON GEORGE<sup style="font-size:.6em">®</sup></span>
+      <nav class="s1-site-nav">
+        <span>Sobre</span><span>Projetos</span><span>Contato</span>
+        <span class="s1-lang">pt / en</span>
+      </nav>
+    </div>
+    <div class="s1-hero">
+      <div class="s1-hero-eyebrow">
+        <span class="s1-pill">2026</span>
+        <span class="s1-eyebrow-txt">Portfólio — Design &amp; Modelagem 3D</span>
+      </div>
+      <h1 class="s1-display">Ideia vira<br><span class="s1-outline">coisa</span> aqui</h1>
+      <p class="s1-sub">Desenho Industrial na UFSM. Começo com uma ideia e termino com algo que existe de verdade: marca, página impressa, objeto 3D.</p>
+      <div class="s1-ctas">
+        <a class="s1-btn s1-btn-blue">Ver o que já virou →</a>
+        <a class="s1-btn s1-btn-out">Trazer uma ideia →</a>
+      </div>
+    </div>
+    <div class="s1-marquee-wrap">
+      <div class="s1-track">DESIGN GRÁFICO ✦ MODELAGEM 3D ✦ BRANDING ✦ EDITORIAL ✦ PROTOTIPAGEM ✦ RENDER ✦&nbsp;&nbsp;DESIGN GRÁFICO ✦ MODELAGEM 3D ✦ BRANDING ✦ EDITORIAL ✦ PROTOTIPAGEM ✦ RENDER ✦&nbsp;&nbsp;</div>
+    </div>
+    <div class="s1-slide-footer">
+      <span class="s1-slide-label">Manual de Identidade Visual · Desenho Industrial UFSM</span>
+      <span class="s1-slide-num">01 / 07</span>
+    </div>
+  </div>
+
+  <!-- ════ S2 · DNA ════ -->
+  <div class="slide" id="s2">
+    <div class="dna-wrap">
+      <div class="dna-header">
+        <span class="dna-label">02 · DNA da Marca</span>
+        <div class="dna-line"></div>
+        <span class="dna-label">Três decisões que definem tudo</span>
+      </div>
+      <div class="dna-row">
+        <span class="dna-num">01</span>
+        <span class="dna-word filled">EDITORIAL</span>
+        <span class="dna-def">Tipografia Poppins 800 em caixa alta domina a hierarquia. O conteúdo é lido como uma revista, não um currículo.</span>
+      </div>
+      <div class="dna-row">
+        <span class="dna-num">02</span>
+        <span class="dna-word outline">DIRETO</span>
+        <span class="dna-def">Fundo off-white quente, sem glassmorphism, sem dark mode. O projeto aparece; o suporte some.</span>
+      </div>
+      <div class="dna-row">
+        <span class="dna-num">03</span>
+        <span class="dna-word accent">COLORIDO</span>
+        <span class="dna-def">Cada cor identifica uma disciplina — azul, vermelho, laranja, verde. Cor é taxonomia, não decoração.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ S3 · MATÉRIA-PRIMA ════ -->
+  <div class="slide" id="s3">
+    <div class="mat-col">
+      <div class="mat-col-label">03 · Cores — os pigmentos</div>
+      <div class="color-stripes">
+        <div class="stripe" style="background:#2B3FD8;color:#fff">
+          <span class="stripe-name">Azul</span>
+          <div class="stripe-right"><span class="stripe-hex">#2B3FD8</span><span class="stripe-use">CTA · Design Gráfico</span></div>
+        </div>
+        <div class="stripe" style="background:#ED2647;color:#fff">
+          <span class="stripe-name">Vermelho</span>
+          <div class="stripe-right"><span class="stripe-hex">#ED2647</span><span class="stripe-use">Posters · Branding</span></div>
+        </div>
+        <div class="stripe" style="background:#FF8A00;color:#1C1C1A">
+          <span class="stripe-name">Laranja</span>
+          <div class="stripe-right"><span class="stripe-hex">#FF8A00</span><span class="stripe-use">Editorial · Energia</span></div>
+        </div>
+        <div class="stripe" style="background:#3FA110;color:#fff">
+          <span class="stripe-name">Verde</span>
+          <div class="stripe-right"><span class="stripe-hex">#3FA110</span><span class="stripe-use">Modelagem 3D</span></div>
+        </div>
+        <div class="stripe" style="background:#F1F0EC;color:#1C1C1A;border:1px solid rgba(28,28,26,.08)">
+          <span class="stripe-name">Off-white</span>
+          <div class="stripe-right"><span class="stripe-hex">#F1F0EC</span><span class="stripe-use">Fundo — corpo</span></div>
+        </div>
+        <div class="stripe" style="background:#1C1C1A;color:#fff">
+          <span class="stripe-name">Preto</span>
+          <div class="stripe-right"><span class="stripe-hex">#1C1C1A</span><span class="stripe-use">Texto · Footer · CTA</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="mat-divider"></div>
+    <div class="mat-col">
+      <div class="mat-col-label">03 · Tipografia — as fontes</div>
+      <div class="type-specimens">
+        <div class="specimen">
+          <div class="spec-meta"><span>POPPINS · 800 · display</span><span>var(--font-display)</span></div>
+          <div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,4.5rem);letter-spacing:-.04em;line-height:.92;color:var(--preto)">
+            DESIGN<br><span style="color:transparent;-webkit-text-stroke:clamp(1px,.2vw,2px) #1C1C1A">COISA</span>
+          </div>
+        </div>
+        <div class="specimen">
+          <div class="spec-meta"><span>POPPINS · 700 · heading</span></div>
+          <div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:clamp(1.1rem,2vw,1.8rem);letter-spacing:-.02em;color:var(--preto)">Três frentes, um processo</div>
+        </div>
+        <div class="specimen">
+          <div class="spec-meta"><span>POPPINS · 600 · label / eyebrow</span></div>
+          <div style="font-family:'Poppins',sans-serif;font-weight:600;font-size:.72rem;letter-spacing:.4em;text-transform:uppercase;color:var(--cinza)">PORTFÓLIO · 2026</div>
+        </div>
+        <div class="specimen">
+          <div class="spec-meta"><span>INTER · 400 · body</span><span>var(--font-body)</span></div>
+          <div style="font-size:clamp(.78rem,.95vw,.9rem);font-weight:400;color:var(--cinza);line-height:1.7">Começo com uma ideia e termino com algo que existe de verdade: marca, página impressa, objeto 3D.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ S4 · ARQUITETURA ════ -->
+  <div class="slide" id="s4">
+    <div class="arch-wrap">
+      <h2 class="arch-title">A estrutura<br>invisível.</h2>
+      <p class="arch-sub">O que o olho não vê mas sente: raios de borda, espaçamento e elevação.</p>
+      <div class="arch-grid">
+
+        <div class="arch-card">
+          <div class="arch-card-label">Border Radius — escala</div>
+          <div class="radius-items">
+            <div class="radius-item">
+              <div class="rbox" style="width:60px;border-radius:4px"></div>
+              <div><div class="r-val">4px</div><div class="r-use">Outline de foco</div></div>
+            </div>
+            <div class="radius-item">
+              <div class="rbox" style="width:70px;border-radius:12px"></div>
+              <div><div class="r-val">12px</div><div class="r-use">Inputs e textareas</div></div>
+            </div>
+            <div class="radius-item">
+              <div class="rbox" style="width:80px;border-radius:20px"></div>
+              <div><div class="r-val">20px — <code style="font-size:.6rem;color:#2B3FD8">--radius</code></div><div class="r-use">Cards de área e projeto</div></div>
+            </div>
+            <div class="radius-item">
+              <div class="rbox" style="width:90px;border-radius:24px"></div>
+              <div><div class="r-val">24px</div><div class="r-use">Foto de perfil · formulário</div></div>
+            </div>
+            <div class="radius-item">
+              <div class="rbox" style="width:100px;border-radius:100px"></div>
+              <div><div class="r-val">100px — pill</div><div class="r-use">Botões e tags de categoria</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-label">Espaçamento — padding-x responsivo</div>
+          <div class="spacing-items">
+            <div class="spacing-item"><div class="sp-bar" style="width:40px"></div><span class="sp-label">20px</span><span class="sp-use">mínimo (mobile)</span></div>
+            <div class="spacing-item"><div class="sp-bar" style="width:80px"></div><span class="sp-label">5.5vw</span><span class="sp-use">fluido</span></div>
+            <div class="spacing-item"><div class="sp-bar" style="width:130px"></div><span class="sp-label">80px</span><span class="sp-use">máximo (desktop)</span></div>
+          </div>
+          <div style="margin-top:14px;padding:12px;background:var(--offwhite);border-radius:10px">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#2B3FD8;line-height:1.7">--pad-x: clamp(20px, 5.5vw, 80px)</div>
+            <div style="font-size:.65rem;color:#6B6B66;margin-top:4px">Uma variável, todo o site alinha junto.</div>
+          </div>
+          <div style="margin-top:12px;padding:12px;background:var(--offwhite);border-radius:10px">
+            <div style="font-family:'Poppins',sans-serif;font-size:.58rem;font-weight:700;color:#6B6B66;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px">Transição padrão</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#2B3FD8;line-height:1.8">transform .25s ease<br>box-shadow .25s ease</div>
+            <div style="font-size:.63rem;color:#6B6B66;margin-top:3px">translateY(-6px) no hover dos cards</div>
+          </div>
+        </div>
+
+        <div class="arch-card">
+          <div class="arch-card-label">Sombras — elevação por interação</div>
+          <div class="shadow-items">
+            <div class="shadow-item sh0">
+              <span class="shadow-name">Repouso</span>
+              <span class="shadow-val">box-shadow: none<br>border: 1px (.08)</span>
+            </div>
+            <div class="shadow-item sh1">
+              <span class="shadow-name">Hover — area card</span>
+              <span class="shadow-val">0 16px 40px<br>rgba(28,28,26,.08)</span>
+            </div>
+            <div class="shadow-item sh2">
+              <span class="shadow-name">Hover — project card</span>
+              <span class="shadow-val">0 20px 48px<br>rgba(28,28,26,.10)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ S5 · PEÇAS ════ -->
+  <div class="slide" id="s5">
+    <div class="pecas-wrap">
+      <div class="pecas-header">
+        <h2 class="pecas-title">As peças<br>do sistema.</h2>
+        <span class="pecas-count">8 COMPONENTES · 1 LINGUAGEM</span>
+      </div>
+      <div class="workbench">
+
+        <div class="bench-item">
+          <div class="bench-label">.btn — 3 variantes</div>
+          <div class="btn-stack">
+            <button class="c-btn c-btn-blue">Ver o que já virou →</button>
+            <button class="c-btn c-btn-dark">Ver todos →</button>
+            <button class="c-btn c-btn-out">Trazer uma ideia →</button>
+          </div>
+        </div>
+
+        <div class="bench-item">
+          <div class="bench-label">.pill — taxonomia de disciplinas</div>
+          <div class="pill-cloud">
+            <span class="c-pill pill-az">DESIGN GRÁFICO</span>
+            <span class="c-pill pill-vm">POSTERS</span>
+            <span class="c-pill pill-la">EDITORIAL</span>
+            <span class="c-pill pill-vd">3D</span>
+          </div>
+          <div style="margin-top:12px">
+            <div class="bench-label" style="margin-bottom:8px">.filter-btn — projetos</div>
+            <div class="filter-row">
+              <button class="c-filter on">Todos</button>
+              <button class="c-filter">3D</button>
+              <button class="c-filter">Posters</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bench-item" style="display:flex;flex-direction:column;gap:10px">
+          <div>
+            <div class="bench-label">.marquee — faixa azul animada</div>
+            <div class="mini-marquee">DESIGN GRÁFICO ✦ MODELAGEM 3D ✦ BRANDING ✦ EDITORIAL ✦</div>
+          </div>
+          <div>
+            <div class="bench-label">.footer-cta — preto + laranja</div>
+            <div class="mini-cta">Vamos dar<br>forma a <span>isso?</span></div>
+          </div>
+        </div>
+
+        <div class="bench-item">
+          <div class="bench-label">.area-card — serviços</div>
+          <div class="mini-area">
+            <div class="mini-area-num">01.</div>
+            <div class="mini-area-title">Design Gráfico</div>
+            <ul class="mini-area" style="background:transparent;padding:0">
+              <li>Posters & Cartazes</li>
+              <li>Editorial & Revistas</li>
+              <li>Tipografia Aplicada</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bench-item">
+          <div class="bench-label">.project-card — portfólio</div>
+          <div class="mini-proj">
+            <div class="mini-proj-thumb" style="background:linear-gradient(135deg,#2B3FD8,#4d5fe8)">AMANO</div>
+            <div class="mini-proj-body">
+              <div style="margin-bottom:4px"><span class="c-pill pill-az" style="font-size:.6rem;padding:3px 10px">3D</span></div>
+              <div class="mini-proj-name">Yoshitaka Amano — Expografia 3D</div>
+              <div class="mini-proj-meta">Blender · Expografia</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bench-item">
+          <div class="bench-label">.stack-item — ferramentas</div>
+          <div class="mini-stack">
+            <div class="mini-stack-item"><span class="stn">01</span><span class="stt">Blender</span><span class="std">3D · Render</span></div>
+            <div class="mini-stack-item"><span class="stn">02</span><span class="stt" style="color:#2B3FD8">Photoshop</span><span class="std">Imagem</span></div>
+            <div class="mini-stack-item"><span class="stn">03</span><span class="stt">InDesign</span><span class="std">Editorial</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ S6 · CÓDIGO ════ -->
+  <div class="slide" id="s6">
+    <div class="code-wrap">
+      <h2 class="code-headline">O código<br>que sustenta.</h2>
+      <p class="code-sub">9 tokens. Uma mudança aqui e o site inteiro atualiza.</p>
+      <div class="code-grid">
+        <div class="code-block">
+          <div class="code-block-title">Cores — :root</div>
+          <div class="tl"><span class="t-sel">:root</span> <span class="t-brace">{</span></div>
+          <div class="tl ind"><span class="t-sw" style="background:#2B3FD8"></span><span class="t-prop">--azul</span><span class="t-col">:</span><span class="t-val">#2B3FD8</span>;<span class="t-cmt">/* CTA + Design */</span></div>
+          <div class="tl ind"><span class="t-sw" style="background:#ED2647"></span><span class="t-prop">--vermelho</span><span class="t-col">:</span><span class="t-val">#ED2647</span>;<span class="t-cmt">/* Posters */</span></div>
+          <div class="tl ind"><span class="t-sw" style="background:#FF8A00"></span><span class="t-prop">--laranja</span><span class="t-col">:</span><span class="t-val">#FF8A00</span>;<span class="t-cmt">/* Editorial */</span></div>
+          <div class="tl ind"><span class="t-sw" style="background:#3FA110"></span><span class="t-prop">--verde</span><span class="t-col">:</span><span class="t-val">#3FA110</span>;<span class="t-cmt">/* 3D */</span></div>
+          <div class="tl ind"><span class="t-sw" style="background:#F1F0EC;border:1px solid rgba(255,255,255,.15)"></span><span class="t-prop">--offwhite</span><span class="t-col">:</span><span class="t-val">#F1F0EC</span>;</div>
+          <div class="tl ind"><span class="t-sw" style="background:#1C1C1A"></span><span class="t-prop">--preto</span><span class="t-col">:</span><span class="t-val">#1C1C1A</span>;</div>
+          <div class="tl ind"><span class="t-sw" style="background:#6B6B66"></span><span class="t-prop">--cinza</span><span class="t-col">:</span><span class="t-val">#6B6B66</span>;</div>
+          <div class="tl ind"><span class="t-sw" style="background:#D8D6CE"></span><span class="t-prop">--cinza-claro</span><span class="t-col">:</span><span class="t-val">#D8D6CE</span>;</div>
+          <div class="tl"><span class="t-brace">}</span></div>
+        </div>
+        <div class="code-block">
+          <div class="code-block-title">Layout + Tipografia</div>
+          <div class="tl ind"><span class="t-prop">--radius</span><span class="t-col">:</span><span class="t-val">20px</span>;<span class="t-cmt">/* cards */</span></div>
+          <div class="tl ind"><span class="t-prop">--pad-x</span><span class="t-col">:</span><span class="t-val">clamp(20px, 5.5vw, 80px)</span>;</div>
+          <div class="tl ind" style="margin-top:6px"><span class="t-prop">--font-display</span><span class="t-col">:</span><span class="t-val">'Poppins'</span>;</div>
+          <div class="tl ind"><span class="t-prop">--font-body</span><span class="t-col">:</span><span class="t-val">'Inter'</span>;</div>
+          <div style="margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:.64rem;color:rgba(255,255,255,.3);line-height:1.9">
+            <div style="color:rgba(255,255,255,.18);margin-bottom:4px;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;font-family:'Poppins',sans-serif">Tipografia responsiva</div>
+            <span style="color:#79b8ff">.display</span> { font-size: <span style="color:#f8c555">clamp(44px, 8.6vw, 124px)</span> }<br>
+            <span style="color:#79b8ff">.h2</span> { font-size: <span style="color:#f8c555">clamp(32px, 3.9vw, 56px)</span> }<br>
+            <span style="color:#79b8ff">.footer-cta</span> { font-size: <span style="color:#f8c555">clamp(44px, 6.5vw, 88px)</span> }
+          </div>
+          <div class="why-pill">
+            Mudar <strong><code>--azul</code></strong> atualiza botões, pills, links e marquee de uma vez — o sistema é programável, não apenas visual.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ S7 · O RESULTADO ════ -->
+  <div class="slide" id="s7">
+    <div class="s7-head">
+      <span class="s7-label">07 · O Resultado</span>
+      <span class="s7-title">Tudo junto. <em>No ar.</em></span>
+    </div>
+    <div class="browser">
+      <div class="browser-bar">
+        <div class="dots3">
+          <div class="d3" style="background:#ff5f57"></div>
+          <div class="d3" style="background:#febc2e"></div>
+          <div class="d3" style="background:#28c840"></div>
+        </div>
+        <div class="browser-url">alissongeorge.com.br / index.html</div>
+      </div>
+      <div class="browser-body">
+        <div class="mini-header">
+          <span class="mini-logo">ALISSON GEORGE<sup style="font-size:.55em">®</sup></span>
+          <div class="mini-nav">
+            <a href="#">Sobre</a><a href="#">Projetos</a><a href="#">Contato</a>
+          </div>
+        </div>
+        <div class="mini-hero">
+          <div class="mini-eyebrow-row">
+            <span class="mini-pill-sm">2026</span>
+            <span class="mini-eyebrow-txt">Portfólio — Design &amp; Modelagem 3D</span>
+          </div>
+          <div class="mini-display">Ideia vira<br><span>coisa</span> aqui</div>
+          <p class="mini-sub">Desenho Industrial na UFSM. Começo com uma ideia e termino com algo que existe de verdade: marca, página impressa, objeto 3D.</p>
+          <div class="mini-btns">
+            <span class="mini-btn mini-btn-bl">Ver o que já virou →</span>
+            <span class="mini-btn mini-btn-ou">Trazer uma ideia →</span>
+          </div>
+        </div>
+        <div class="mini-marquee-bar">DESIGN GRÁFICO ✦ MODELAGEM 3D ✦ BRANDING ✦ EDITORIAL ✦ PROTOTIPAGEM ✦ RENDER ✦ &nbsp; DESIGN GRÁFICO ✦ MODELAGEM 3D ✦</div>
+      </div>
+    </div>
+  <!-- ════ S8 · MODO ESCURO ════ -->
+  <div class="slide" id="s8">
+    <div class="dm-wrap">
+      <div class="dna-header">
+        <span class="dna-label">08 · Modo Escuro</span>
+        <div class="dna-line"></div>
+        <span class="dna-label">O mesmo sistema — dois contextos</span>
+      </div>
+      <div class="dm-compare">
+        <div>
+          <div class="dm-mode-label">Claro — padrão</div>
+          <div class="dm-mini dm-mini-light">
+            <div style="background:#F1F0EC;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(28,28,26,.08)">
+              <span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:.76rem;color:#1C1C1A;letter-spacing:.03em">ALISSON GEORGE<sup style="font-size:.55em">®</sup></span>
+              <div style="display:flex;gap:16px"><span style="font-size:.67rem;color:#6B6B66">Sobre</span><span style="font-size:.67rem;color:#6B6B66">Projetos</span><span style="font-size:.67rem;color:#6B6B66">Contato</span></div>
+            </div>
+            <div style="background:#F1F0EC;padding:clamp(18px,3vw,30px) 18px">
+              <div style="margin-bottom:12px"><span style="font-family:'Poppins',sans-serif;font-size:.6rem;font-weight:600;padding:4px 12px;border-radius:100px;background:#2B3FD8;color:#fff">2026</span></div>
+              <div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(2rem,4vw,3.4rem);letter-spacing:-.04em;color:#1C1C1A;line-height:.91;margin-bottom:12px">Ideia vira<br><span style="color:transparent;-webkit-text-stroke:2px #1C1C1A">coisa</span> aqui</div>
+              <p style="font-size:.7rem;color:#6B6B66;line-height:1.6;margin-bottom:16px;max-width:360px">Começo com uma ideia e termino com algo que existe de verdade: marca, página impressa, objeto 3D.</p>
+              <div style="display:flex;gap:8px">
+                <span style="font-family:'Inter',sans-serif;font-weight:600;font-size:.7rem;padding:9px 20px;border-radius:100px;background:#2B3FD8;color:#fff">Ver o que já virou →</span>
+                <span style="font-family:'Inter',sans-serif;font-weight:600;font-size:.7rem;padding:9px 20px;border-radius:100px;border:1.5px solid #1C1C1A;color:#1C1C1A">Trazer uma ideia →</span>
+              </div>
+            </div>
+            <div style="background:#2B3FD8;padding:9px 18px;font-family:'Poppins',sans-serif;font-size:.65rem;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:.14em;white-space:nowrap;overflow:hidden">DESIGN GRÁFICO ✦ MODELAGEM 3D ✦ BRANDING ✦ EDITORIAL ✦ PROTOTIPAGEM ✦</div>
+          </div>
+        </div>
+        <div>
+          <div class="dm-mode-label">Escuro — prefers-color-scheme: dark</div>
+          <div class="dm-mini dm-mini-dark">
+            <div style="background:#1C1C1A;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.06)">
+              <span style="font-family:'Poppins',sans-serif;font-weight:700;font-size:.76rem;color:#F1F0EC;letter-spacing:.03em">ALISSON GEORGE<sup style="font-size:.55em">®</sup></span>
+              <div style="display:flex;gap:16px"><span style="font-size:.67rem;color:#9B9B96">Sobre</span><span style="font-size:.67rem;color:#9B9B96">Projetos</span><span style="font-size:.67rem;color:#9B9B96">Contato</span></div>
+            </div>
+            <div style="background:#0F0F0E;padding:clamp(18px,3vw,30px) 18px">
+              <div style="margin-bottom:12px"><span style="font-family:'Poppins',sans-serif;font-size:.6rem;font-weight:600;padding:4px 12px;border-radius:100px;background:#2B3FD8;color:#fff">2026</span></div>
+              <div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:clamp(2rem,4vw,3.4rem);letter-spacing:-.04em;color:#F1F0EC;line-height:.91;margin-bottom:12px">Ideia vira<br><span style="color:transparent;-webkit-text-stroke:2px #F1F0EC">coisa</span> aqui</div>
+              <p style="font-size:.7rem;color:#9B9B96;line-height:1.6;margin-bottom:16px;max-width:360px">Começo com uma ideia e termino com algo que existe de verdade: marca, página impressa, objeto 3D.</p>
+              <div style="display:flex;gap:8px">
+                <span style="font-family:'Inter',sans-serif;font-weight:600;font-size:.7rem;padding:9px 20px;border-radius:100px;background:#2B3FD8;color:#fff">Ver o que já virou →</span>
+                <span style="font-family:'Inter',sans-serif;font-weight:600;font-size:.7rem;padding:9px 20px;border-radius:100px;border:1.5px solid rgba(255,255,255,.15);color:#F1F0EC">Trazer uma ideia →</span>
+              </div>
+            </div>
+            <div style="background:#2B3FD8;padding:9px 18px;font-family:'Poppins',sans-serif;font-size:.65rem;font-weight:700;color:rgba(255,255,255,.75);letter-spacing:.14em;white-space:nowrap;overflow:hidden">DESIGN GRÁFICO ✦ MODELAGEM 3D ✦ BRANDING ✦ EDITORIAL ✦ PROTOTIPAGEM ✦</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const TOTAL = 8;
+  let cur = 0, busy = false;
+  const slides = document.querySelectorAll('.slide');
+  const dotsEl = document.getElementById('dots');
+  const snumEl = document.getElementById('snum');
+  const wmEl   = document.getElementById('wm');
+  const pBtn   = document.getElementById('btn-prev');
+  const nBtn   = document.getElementById('btn-next');
+  const DARK   = new Set(['s6','s7']);
+
+  for (let i = 0; i < TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot';
+    d.addEventListener('click', () => go(i));
+    dotsEl.appendChild(d);
+  }
+
+  function updateChrome() {
+    const dark = DARK.has(slides[cur].id);
+    dotsEl.querySelectorAll('.dot').forEach((d,i) => {
+      d.classList.toggle('active', i === cur);
+      d.classList.toggle('light', dark);
+    });
+    snumEl.textContent = (cur+1) + ' / ' + TOTAL;
+    snumEl.classList.toggle('light', dark);
+    wmEl.classList.toggle('light', dark);
+    [pBtn, nBtn].forEach(b => b.classList.toggle('light', dark));
+    pBtn.disabled = cur === 0;
+    nBtn.disabled = cur === TOTAL - 1;
+  }
+
+  function go(idx) {
+    if (busy || idx === cur || idx < 0 || idx >= TOTAL) return;
+    busy = true;
+    const from = slides[cur], to = slides[idx];
+    from.classList.remove('active'); from.classList.add('exit');
+    to.style.transform = 'translateY(28px)'; to.style.opacity = '0';
+    to.classList.add('active');
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      to.style.transform = ''; to.style.opacity = '';
+      setTimeout(() => { from.classList.remove('exit'); busy = false; }, 500);
+    }));
+    cur = idx; updateChrome();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight','ArrowDown',' '].includes(e.key)) { e.preventDefault(); go(cur+1); }
+    if (['ArrowLeft','ArrowUp'].includes(e.key))         { e.preventDefault(); go(cur-1); }
+  });
+
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend',   e => {
+    const d = tx - e.changedTouches[0].clientX;
+    if (Math.abs(d) > 44) go(cur + (d > 0 ? 1 : -1));
+  });
+
+  updateChrome();
+</script>
+</body>
+</html>

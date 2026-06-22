@@ -8,9 +8,11 @@
     <title>Contato — Alisson George</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css?v=4">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Hanken+Grotesque:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=7">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+    <!-- MODO ESCURO 2026-06-22: tema antes da pintura (evita flash). -->
+    <script>try{var s=localStorage.getItem('tema');var d=s?s==='dark':(document.documentElement.classList.contains('dark')||matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d);}catch(e){}</script>
 </head>
 <body>
     <a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
@@ -22,14 +24,17 @@
             <a href="projetos.html">Projetos</a>
             <a href="contato.html" aria-current="page">Contato</a>
             <span class="nav-lang">pt / en</span>
+            <!-- MODO ESCURO 2026-06-22: botão de tema. -->
+            <button class="theme-toggle" type="button" aria-label="Alternar modo claro e escuro" aria-pressed="false"><span class="tt-dot" aria-hidden="true">◑</span><span class="tt-label">Escuro</span></button>
         </nav>
     </header>
 
     <main id="main-content">
         <section class="hero" aria-labelledby="contato-title">
-            <!-- 2026-06-12 (noite): título-afirmação + palavra vazada -->
+            <!-- 2026-06-12 (noite): título-afirmação + palavra vazada; mantido -->
+            <!-- 2026-06-13: subtítulo reescrito — removida informalidade rejeitada ("provavelmente com perguntas") -->
             <h1 id="contato-title" class="display reveal">Me conta<br><span class="display-outline">a ideia</span></h1>
-            <p class="hero-sub reveal">Duas linhas bastam. Eu respondo em até 48h — provavelmente com perguntas.</p>
+            <p class="hero-sub reveal">Pode ser um projeto, uma parceria ou só uma pergunta. Respondo em até 48 horas.</p>
         </section>
 
         <section class="section section--flush-top">
