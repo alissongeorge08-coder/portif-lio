@@ -100,8 +100,10 @@ button:focus-visible {
 .display {
   font-family: var(--font-display);
   font-weight: 800;
+  /* 2026-06-13: line-height corrigido de .95 para 1.0 — resolve clipagem de acentos uppercase
+     (ex.: "à máquina" / "à mão" em projetos.html). Impacto visual mínimo. */
   font-size: clamp(44px, 8.6vw, 124px);
-  line-height: .95;
+  line-height: 1.0;
   letter-spacing: -0.03em;
   text-transform: uppercase;
 }
@@ -145,8 +147,7 @@ button:focus-visible {
   color: var(--branco);
 }
 .pill--azul { background: var(--azul); }
-/* 2026-06-12: tons escurecidos p/ contraste AA com texto branco 13px
-   (originais: vermelho #ED2647 = 4.22:1 · verde #3FA110 = 3.33:1) */
+/* 2026-06-12: tons escurecidos p/ contraste AA com texto branco 13px */
 .pill--vermelho { background: #C71B38; }
 .pill--laranja { background: var(--laranja); color: var(--preto); }
 .pill--verde { background: #2E7A0C; }
@@ -246,6 +247,29 @@ button:focus-visible {
   margin-bottom: 48px;
 }
 
+/* ---------- Faixa manifesto — 2026-06-13: breaker editorial na home ----------
+   Fundo preto com frase de manifesto em display grande; palavra-chave em laranja.
+   Reverter: remover este bloco + remover <section class="statement-strip"> do index.html */
+.statement-strip {
+  background: var(--preto);
+  padding: clamp(56px, 7.5vw, 104px) var(--pad-x);
+}
+
+.statement-strip p {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(36px, 5.5vw, 80px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--branco);
+  max-width: 1200px;
+}
+
+.statement-strip p em {
+  font-style: normal;
+  color: var(--laranja);
+}
+
 /* ---------- O que eu faço ---------- */
 .areas-grid {
   display: grid;
@@ -291,44 +315,6 @@ button:focus-visible {
 }
 .area-card li::before { content: '—  '; }
 
-/* ---------- Processo — 2026-06-12 (noite): nova seção da home ---------- */
-.process-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
-  margin-top: 56px;
-  list-style: none; /* é um <ol>; o reset global só cobre <ul> */
-}
-
-.process-step {
-  border-top: 3px solid var(--preto);
-  padding-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.process-step:nth-child(1) { border-color: var(--azul); }
-.process-step:nth-child(2) { border-color: var(--vermelho); }
-.process-step:nth-child(3) { border-color: var(--laranja); }
-.process-step:nth-child(4) { border-color: var(--verde); }
-
-.process-num {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(40px, 4.5vw, 64px);
-  line-height: 1;
-  letter-spacing: -0.03em;
-  color: var(--cinza-claro);
-}
-
-.process-step h3 {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 22px;
-}
-
-.process-step p { color: var(--cinza); font-size: 15px; }
-
 /* ---------- Cards de projeto ---------- */
 .projects-grid {
   display: grid;
@@ -342,11 +328,64 @@ button:focus-visible {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform .25s ease, box-shadow .25s ease;
+  /* 2026-06-13: adicionado opacity à transição — permite fade suave no filtro */
+  transition: transform .25s ease, box-shadow .25s ease, opacity .28s ease;
 }
 .project-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 20px 48px rgba(28, 28, 26, .1);
+}
+
+/* 2026-06-14: hover overlay com pill no thumb dos cards — efeito editorial
+   A pill da categoria sobe do fundo do thumb ao fazer hover no card.
+   JS injeta .project-thumb-overlay com a pill clonada em cada thumb.
+   Reverter: remover este bloco CSS + trecho "Thumb pill overlay" do main.js. */
+.project-thumb {
+  position: relative;
+}
+
+.project-thumb-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 18px;
+  background: linear-gradient(to top, rgba(28,28,26,.72) 0%, transparent 100%);
+  transform: translateY(110%);
+  transition: transform .34s cubic-bezier(.22,.84,.33,1);
+  display: flex;
+  align-items: flex-end;
+}
+
+.project-card:hover .project-thumb-overlay,
+.project-card:focus-within .project-thumb-overlay {
+  transform: translateY(0);
+}
+
+/* 2026-06-13: card em destaque — ocupa largura total, layout horizontal editorial
+   (ref. Awwwards / editorial portfolio boards). Reverter: remover este bloco + remover
+   a classe project-card--featured do primeiro card em projetos.html. */
+.project-card--featured {
+  grid-column: 1 / -1;
+  flex-direction: row;
+}
+.project-card--featured .project-thumb {
+  flex: 0 0 55%;
+  aspect-ratio: auto;
+  min-height: 300px;
+  font-size: clamp(56px, 6vw, 96px);
+}
+.project-card--featured .project-body {
+  padding: 40px 48px;
+  justify-content: center;
+  gap: 20px;
+}
+.project-card--featured .project-body h3 {
+  font-size: clamp(24px, 2.6vw, 38px);
+}
+.project-card--featured .project-body p {
+  font-size: 16px;
+  line-height: 1.65;
 }
 
 .project-thumb {
@@ -378,7 +417,7 @@ button:focus-visible {
 
 .project-body p { color: var(--cinza); font-size: 15px; }
 
-/* 2026-06-12 (noite): ficha técnica do card (ref. Visual Journal / Fonts In Use) */
+/* 2026-06-12 (noite): ficha técnica do card */
 .project-body p.project-meta {
   margin-top: 6px;
   padding-top: 14px;
@@ -391,7 +430,7 @@ button:focus-visible {
   color: var(--cinza);
 }
 
-/* 2026-06-12: hover informativo — seta no título do card (ref. Site of Sites) */
+/* 2026-06-12: hover informativo — seta no título do card */
 .project-body h3::after {
   content: '→';
   display: inline-block;
@@ -610,30 +649,311 @@ button:focus-visible {
 .projects-grid .reveal:nth-child(2) { transition-delay: .12s; }
 .areas-grid .reveal:nth-child(3),
 .projects-grid .reveal:nth-child(3) { transition-delay: .24s; }
-/* 2026-06-12 (noite): stagger também na seção Processo */
-.process-grid .reveal:nth-child(2) { transition-delay: .12s; }
-.process-grid .reveal:nth-child(3) { transition-delay: .24s; }
-.process-grid .reveal:nth-child(4) { transition-delay: .36s; }
+/* 2026-06-14: stagger estendido para os demais cards do grid */
+.projects-grid .reveal:nth-child(4) { transition-delay: .12s; }
+.projects-grid .reveal:nth-child(5) { transition-delay: .24s; }
+.projects-grid .reveal:nth-child(6) { transition-delay: .12s; }
+.projects-grid .reveal:nth-child(7) { transition-delay: .24s; }
+.projects-grid .reveal:nth-child(8) { transition-delay: .12s; }
 
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; transition-delay: 0s; }
   .marquee-track { animation: none; }
   .project-body h3::after { transition: none; }
+  .project-thumb-overlay { transition: none; }
+}
+
+/* ---------- Stack criativo (sobre.html) — 2026-06-14 ----------
+   Lista editorial de ferramentas com tipografia display grande.
+   Pattern "list-as-design" (Visual Journal / Design Reviewed / Bold Minimalism 2026).
+   Reverter: remover este bloco + remover a <section class="stack-section"> do sobre.html. */
+.stack-section { padding-top: 0; }
+
+.stack-list {
+  margin-top: 32px;
+  border-top: 1px solid rgba(28,28,26,.12);
+}
+
+.stack-item {
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  align-items: center;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(28,28,26,.12);
+  transition: padding-left .22s ease;
+  cursor: default;
+}
+
+.stack-item:hover { padding-left: 12px; }
+.stack-item:hover .stack-name { color: var(--azul); }
+
+.stack-num {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--cinza);
+  letter-spacing: .12em;
+}
+
+.stack-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(28px, 3.8vw, 56px);
+  letter-spacing: -0.025em;
+  line-height: 1;
+  transition: color .22s ease;
+}
+
+.stack-desc {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--cinza);
+  text-align: right;
 }
 
 /* ---------- Responsivo ---------- */
 @media (max-width: 1024px) {
   .areas-grid { grid-template-columns: 1fr; }
-  .process-grid { grid-template-columns: repeat(2, 1fr); } /* 2026-06-12 noite */
   .bio-row { grid-template-columns: 1fr; }
   .bio-photo { max-width: 480px; }
   .contact-row { grid-template-columns: 1fr; }
+  /* 2026-06-13: featured card vira vertical em telas médias */
+  .project-card--featured {
+    flex-direction: column;
+  }
+  .project-card--featured .project-thumb {
+    flex: none;
+    aspect-ratio: 16 / 9.5;
+    min-height: auto;
+  }
+  .project-card--featured .project-body {
+    padding: 24px 28px 28px;
+    gap: 12px;
+  }
 }
 
 @media (max-width: 720px) {
   .site-header { flex-wrap: wrap; gap: 16px; }
   .site-nav { gap: 20px; }
   .projects-grid { grid-template-columns: 1fr; }
-  .process-grid { grid-template-columns: 1fr; } /* 2026-06-12 noite */
   .hero-bottom { flex-direction: column; align-items: flex-start; }
+  .stack-item {
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+  }
+  .stack-desc { display: none; }
 }
+
+/* ============================================================
+   POLISH 2026-06-22 — camada de craft (revisão)
+   Aprimoramentos sobre o Editorial Bold, SEM mexer na identidade:
+   curva de movimento própria, equilíbrio tipográfico, definição
+   de superfície e seleção com a cor da marca.
+   100% REVERSÍVEL: basta apagar este bloco inteiro e o site volta
+   exatamente ao que era. Backup do original em _backups/.
+   ============================================================ */
+
+:root {
+  /* curva de saída assinada — a mesma já usada no overlay do thumb,
+     agora promovida a variável e aplicada globalmente */
+  --ease: cubic-bezier(.22, .84, .33, 1);
+  /* sombra quente em duas camadas — mais refinada que sombra única cinza */
+  --shadow-rest: 0 1px 2px rgba(28, 28, 26, .04);
+  --shadow-lift: 0 2px 6px rgba(28, 28, 26, .05), 0 24px 48px rgba(28, 28, 26, .10);
+}
+
+/* 1 — Equilíbrio tipográfico: evita órfãs e quebras feias no display grande */
+.display,
+.h2,
+.statement-strip p,
+.footer-cta,
+.stack-name,
+.area-card h3 { text-wrap: balance; }
+
+.hero-sub,
+.project-body p,
+.bio-text p,
+.area-card li { text-wrap: pretty; }
+
+/* 2 — Definição de superfície: fio de contorno + sombra quente em repouso.
+   Dá nitidez aos cards sobre o offwhite sem quebrar o ar editorial. */
+.area-card,
+.project-card,
+.info-card,
+.contact-form {
+  border: 1px solid rgba(28, 28, 26, .06);
+  box-shadow: var(--shadow-rest);
+}
+.area-card:hover,
+.project-card:hover { box-shadow: var(--shadow-lift); }
+
+/* 3 — Movimento coeso: a mesma curva da marca em todas as microinterações */
+.btn { transition: transform .22s var(--ease), background .22s var(--ease), color .22s var(--ease); }
+.btn .arrow { transition: transform .22s var(--ease); }
+.area-card,
+.project-card { transition: transform .28s var(--ease), box-shadow .28s var(--ease), opacity .28s ease; }
+.site-nav a::after { transition: width .28s var(--ease); }
+.filter-btn { transition: color .2s var(--ease), background .2s var(--ease), border-color .2s var(--ease); }
+
+/* 4 — Seleção de texto com a cor da marca (detalhe que assina o trabalho) */
+::selection { background: var(--azul); color: var(--branco); }
+
+/* 5 — Respeita quem pediu menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  .area-card,
+  .project-card,
+  .btn { transition: none; }
+}
+
+/* ---------- Corpo com mais caráter — 2026-06-22 ----------
+   Troca Inter por Hanken Grotesque: grotesca quente, mais personalidade,
+   pareia melhor com a Poppins display e evita o "default" do Inter.
+   Requer Hanken Grotesque no <link> de fontes do <head>.
+   Reverter: apagar este :root (volta ao Inter). */
+:root { --font-body: 'Hanken Grotesque', 'Inter', system-ui, sans-serif; }
+
+/* ============================================================
+   MODO ESCURO — 2026-06-22
+   Ativado pela classe .dark no <html> (toggle no header; inicia pela
+   preferência do SO ou pela escolha salva). Reescreve só os neutros
+   (papel/tinta) e re-fixa as seções que precisam seguir escuras —
+   as cores da marca não mudam. O contorno do hero ("COISA") volta a
+   aparecer porque a tinta inverte e o stroke acompanha.
+   Reverter: apagar este bloco + o botão .theme-toggle do header
+   + o trecho "MODO ESCURO" do main.js + o script anti-flash do <head>.
+   ============================================================ */
+:root.dark {
+  --offwhite: #161513;     /* papel → fundo escuro quente */
+  --preto:    #ECEAE2;     /* tinta → clara (corrige a palavra vazada) */
+  --cinza:    #A8A49B;     /* secundário mais claro p/ contraste */
+  --cinza-claro: #2A2825;  /* superfícies de placeholder */
+  --branco:   #FFFFFF;     /* mantido: textos brancos sobre cor/escuro */
+  --surface:  #1E1D1A;     /* card no escuro */
+  --hairline-d: rgba(236, 234, 226, .10);
+}
+
+/* superfícies de card (usavam branco) viram escuras */
+:root.dark .area-card,
+:root.dark .project-card,
+:root.dark .info-card,
+:root.dark .contact-form { background: var(--surface); border-color: var(--hairline-d); }
+
+:root.dark .area-card:hover,
+:root.dark .project-card:hover {
+  box-shadow: 0 2px 6px rgba(0,0,0,.4), 0 24px 48px rgba(0,0,0,.55);
+  border-color: rgba(236, 234, 226, .18);
+}
+
+/* fios/bordas que eram escuros viram claros */
+:root.dark .filter-btn { border-color: rgba(236, 234, 226, .22); }
+:root.dark .field input,
+:root.dark .field textarea { border-color: var(--hairline-d); background: #121110; }
+:root.dark .project-body p.project-meta { border-top-color: var(--hairline-d); }
+:root.dark .stack-list,
+:root.dark .stack-item { border-color: var(--hairline-d); }
+
+/* placeholder dos thumbs claro p/ aparecer no escuro */
+:root.dark .project-thumb { color: rgba(236, 234, 226, .16); }
+
+/* seções que DEVEM seguir escuras (usavam --preto como fundo) */
+:root.dark .site-footer { background: #0F0E0C; }
+:root.dark .statement-strip { background: #0F0E0C; }
+:root.dark .skip-link { background: #ECEAE2; color: #161513; }
+
+/* botões/estados que invertiam errado ao trocar a tinta */
+:root.dark .btn--escuro { background: #ECEAE2; color: #161513; }
+:root.dark .btn--outline:hover { background: #ECEAE2; color: #161513; }
+:root.dark .filter-btn.active { background: #ECEAE2; color: #161513; border-color: #ECEAE2; }
+
+/* laranja mantém texto escuro no pill mesmo no dark (contraste) */
+:root.dark .pill--laranja { color: #1C1C1A; }
+
+/* ---------- Botão de tema no header ---------- */
+.theme-toggle {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 15px;
+  border-radius: 100px;
+  border: 1.5px solid currentColor;
+  background: transparent;
+  color: var(--preto);
+  cursor: pointer;
+  transition: transform .2s var(--ease), opacity .2s var(--ease);
+}
+.theme-toggle:hover { transform: translateY(-1px); }
+.theme-toggle .tt-dot { font-size: 14px; line-height: 1; }
+@media (prefers-reduced-motion: reduce) { .theme-toggle { transition: none; } }
+
+/* ============================================================
+   SEÇÃO FERRAMENTAS + AJUSTES DE COPY/LAYOUT — 2026-06-22
+   Traz a lógica de "honestidade sobre ferramentas" do estudo paralelo,
+   adaptada à identidade (paleta Leiautar, cards, Poppins). Inclui o
+   hero justificado. Reverter: apagar este bloco + a <section> Ferramentas
+   do index.html + restaurar o texto da statement-strip. ============================================================ */
+
+/* hero — descrição justificada */
+.hero-sub { text-align: justify; hyphens: auto; }
+
+/* lead curto abaixo de um h2 */
+.section-lead {
+  color: var(--cinza);
+  font-size: clamp(16px, 1.4vw, 19px);
+  max-width: 640px;
+  margin-top: 16px;
+}
+
+/* grade de ferramentas */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+.tool-col {
+  background: var(--branco);
+  border: 1px solid rgba(28, 28, 26, .06);
+  border-radius: var(--radius);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: var(--shadow-rest);
+  transition: transform .28s var(--ease), box-shadow .28s var(--ease);
+}
+.tool-col:hover { transform: translateY(-6px); box-shadow: var(--shadow-lift); }
+.tool-tier {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.tool-col:nth-child(1) .tool-tier { color: var(--azul); }
+.tool-col:nth-child(2) .tool-tier { color: var(--vermelho); }
+.tool-col:nth-child(3) .tool-tier { color: var(--laranja); }
+.tool-col ul { display: flex; flex-direction: column; }
+.tool-col li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 0;
+  border-top: 1px solid rgba(28, 28, 26, .10);
+  font-size: 15px;
+}
+.tool-col li:first-child { border-top: none; }
+.tool-col li::before { content: '+'; color: var(--cinza); font-weight: 700; }
+
+/* modo escuro da seção ferramentas */
+:root.dark .tool-col { background: var(--surface); border-color: var(--hairline-d); }
+:root.dark .tool-col li { border-top-color: var(--hairline-d); }
+
+@media (max-width: 1024px) { .tools-grid { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .tool-col { transition: none; } }
